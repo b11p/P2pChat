@@ -1,0 +1,45 @@
+﻿<Window x:Class="P2pChat.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:P2pChat"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Name="MyInfoTextBox" Grid.Column="0" Margin="2" Focusable="False"/>
+            <Button Grid.Column="1" Margin="2" MinWidth="75" Content="刷新" Click="Button_ClickAsync"/>
+            <Button Grid.Column="2" Margin="2" MinWidth="75" Content="复制" Click="CopyToClipboard"/>
+        </Grid>
+        <Grid Grid.Row="1" Margin="2">
+            <Grid.Resources>
+                
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*" MinWidth="350"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="RecentMassageTextBlock" Margin="2" Background="Azure"
+                       Text=""/>
+        </Grid>
+        <Grid Grid.Row="2" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Name="MessageTextBox" Margin="2"/>
+            <Button Name="MainButton" Grid.Column="1" Margin="2" MinWidth="75" Click="MainButton_Click">连接</Button>
+        </Grid>
+    </Grid>
+</Window>
