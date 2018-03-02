@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,6 +128,23 @@ namespace P2pChat
             if (!isConnected)
             {// 没做异常处理
                 string msg = MessageTextBox.Text;
+                int port;
+                var addressList = new List<IPAddress>();
+                var stringBuilder = new StringBuilder();
+
+                var match = System.Text.RegularExpressions.Regex.Match(msg.Trim(), @"^(?:((?:\d{1,3}\.){3}\d{1,3})|\[(.+)\]):(\d{1,5})$");
+                if (match.Success)
+                {
+                    string ipString = match.Groups[1].Value + match.Groups[2].Value;
+                    if (IPAddress.TryParse(ipString, out IPAddress ip))
+                    {
+                        addressList.Add(ip);
+                        port = int.Parse(match.Groups[3].Value);
+                        goto end;
+                    }
+                    else return;
+                }
+
                 byte[] array;
                 try
                 {
@@ -138,13 +156,12 @@ namespace P2pChat
                     return;
                 }
                 System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(array);
-                StringBuilder stringBuilder = new StringBuilder();
                 var portByte = new byte[2];
                 memoryStream.Read(portByte, 0, 2);
-                int port = portByte[0] + (portByte[1] << 8);
+                port = portByte[0] + (portByte[1] << 8);
                 stringBuilder.AppendLine(port.ToString());
                 int i;
-                List<System.Net.IPAddress> addressList = new List<System.Net.IPAddress>();
+
                 while ((i = memoryStream.ReadByte()) != -1)
                 {
                     byte[] addressByte;

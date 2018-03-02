@@ -30,9 +30,25 @@ namespace P2pChat
              * IPAddress.IPv6Any 的意思是支持 IPv6 的 Any（双栈）
              * IPAddress.Any 只支持 IPv4
              */
-            var iPEndPoint = new IPEndPoint(IPAddress.IPv6Any, 0); // IPv6Any 的意思是支持 IPv6 的 Any（双栈）
+
+            int port = 0;
+
+            // 处理参数。
+            var command = Environment.GetCommandLineArgs();
+            bool waitPort = false;
+            foreach (var c in command)
+            {
+                if (waitPort)
+                {
+                    int.TryParse(c, out port);
+                    break;
+                }
+                if (c == "--port") waitPort = true;
+            }
+
+            var iPEndPoint = new IPEndPoint(IPAddress.IPv6Any, port); // IPv6Any 的意思是支持 IPv6 的 Any（双栈）
             socket.Bind(iPEndPoint);
-            port = (socket.LocalEndPoint as IPEndPoint).Port;
+            this.port = (socket.LocalEndPoint as IPEndPoint).Port;
             return;
         }
 
